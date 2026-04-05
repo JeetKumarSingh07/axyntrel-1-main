@@ -83,16 +83,18 @@ export default function Chat() {
   }, [messages, peerIsTyping]);
 
   useEffect(() => {
-    if (remoteVideoRef.current) {
-      remoteVideoRef.current.srcObject = callState.remoteStream;
+    if (callState.isInCall && !document.querySelector('script[src*="metered.ca"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.metered.ca/sdk/frame/1.4.3/sdk-frame.min.js';
+      script.onload = () => {
+        const frame = new (window as any).MeteredFrame();
+        frame.init({
+          roomURL: "axyntrel.metered.live/axyntrel",
+        }, document.getElementById("metered-frame"));
+      };
+      document.head.appendChild(script);
     }
-  }, [callState.remoteStream]);
-
-  useEffect(() => {
-    if (localVideoRef.current) {
-      localVideoRef.current.srcObject = callState.localStream;
-    }
-  }, [callState.localStream]);
+  }, [callState.isInCall]);
 
 
   /* COPY ROOM ID */
@@ -500,47 +502,11 @@ export default function Chat() {
 
             {callState.callType === "video" ? (
               <>
-                {callState.remoteStream ? (
-                  <video
-                    ref={remoteVideoRef}
-                    autoPlay
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground gap-3 bg-gradient-to-br from-card to-background">
-                    <div className="w-20 h-20 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center animate-pulse">
-                      <UserRound className="w-10 h-10 text-primary" />
-                    </div>
-                    <p className="text-sm">{callState.status === "outgoing" ? "Ringing..." : "Connecting..."}</p>
-                    <div className="inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-current/70 animate-bounce [animation-delay:-0.2s]" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-current/70 animate-bounce [animation-delay:-0.1s]" />
-                      <span className="w-1.5 h-1.5 rounded-full bg-current/70 animate-bounce" />
-                    </div>
-                  </div>
-                )}
-
-                {callState.localStream && (
-                  <video
-                    ref={localVideoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                    className="absolute bottom-4 right-4 w-36 h-24 rounded-xl border border-primary/35 object-cover bg-black/80 shadow-[0_12px_30px_rgba(0,0,0,0.45)]"
-                  />
-                )}
+                <div id="metered-frame" className="w-full h-full"></div>
               </>
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center text-foreground gap-4 bg-gradient-to-br from-card to-background">
-                <div className="w-24 h-24 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center animate-pulse">
-                  <UserRound className="w-12 h-12 text-primary" />
-                </div>
-                <p className="font-semibold text-lg">Audio Call</p>
-                <p className="text-sm text-muted-foreground">
-                  {callState.status === "outgoing" ? "Calling peer..." : callState.status === "active" ? "Connected" : "Connecting..."}
-                </p>
-                <p className="text-xs text-muted-foreground font-mono">{formatDuration(callState.durationSec)}</p>
+                <div id="metered-frame" className="w-full h-full"></div>
               </div>
             )}
 
