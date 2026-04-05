@@ -13,3 +13,5 @@ services:
         value: "false"
       - key: ALLOW_SERVER_CALL_LOGS
         value: "false"
+      - key: APP_ORIGIN
+        value: https://axyntrel-1-main.onrender.com
