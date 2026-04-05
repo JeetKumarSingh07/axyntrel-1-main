@@ -3,7 +3,7 @@ services:
     name: axyntrel
     env: node
     plan: free
-    buildCommand: npm run build
+    buildCommand: npm run db:push && npm run build
     startCommand: npm run start
     autoDeploy: true
     envVars:
