@@ -83,16 +83,11 @@ export default function Chat() {
   }, [messages, peerIsTyping]);
 
   useEffect(() => {
-    if (callState.isInCall && !document.querySelector('script[src*="metered.ca"]')) {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.metered.ca/sdk/frame/1.4.3/sdk-frame.min.js';
-      script.onload = () => {
-        const frame = new (window as any).MeteredFrame();
-        frame.init({
-          roomURL: "axyntrel.metered.live/axyntrel",
-        }, document.getElementById("metered-frame"));
-      };
-      document.head.appendChild(script);
+    if (callState.isInCall && (window as any).MeteredFrame && !document.getElementById("metered-frame")?.hasChildNodes()) {
+      const frame = new (window as any).MeteredFrame();
+      frame.init({
+        roomURL: "axyntrel.metered.live/axyntrel",
+      }, document.getElementById("metered-frame"));
     }
   }, [callState.isInCall]);
 
