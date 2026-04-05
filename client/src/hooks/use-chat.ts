@@ -118,6 +118,7 @@ export function useChat(roomId: string) {
   const outgoingCallTimeoutRef = useRef<number | null>(null);
   const incomingAlertIntervalRef = useRef<number | null>(null);
   const durationIntervalRef = useRef<number | null>(null);
+  const disconnectTimeoutRef = useRef<number | null>(null);
   const ringtoneAudioRef = useRef<HTMLAudioElement | null>(null);
   const callMetaRef = useRef<{
     direction: CallDirection;
@@ -453,6 +454,10 @@ export function useChat(roomId: string) {
 
       if (state === "connected") {
         clearOutgoingCallTimeout();
+        if (disconnectTimeoutRef.current) {
+          window.clearTimeout(disconnectTimeoutRef.current);
+          disconnectTimeoutRef.current = null;
+        }
 
         if (callMetaRef.current && !callMetaRef.current.answeredAt) {
           callMetaRef.current.answeredAt = Date.now();
@@ -476,7 +481,27 @@ export function useChat(roomId: string) {
         }));
       }
 
-      if (state === "failed" || state === "disconnected" || state === "closed") {
+      if (state === "disconnected") {
+        if (!disconnectTimeoutRef.current) {
+          disconnectTimeoutRef.current = window.setTimeout(() => {
+            const currentState = pc.connectionState;
+            if (currentState === "disconnected") {
+              appendCallLog("failed");
+              const callDropMessage = turnUrls.length === 0
+                ? "Call connection lost. Add TURN server config for cross-network device support."
+                : "Call connection lost.";
+              cleanupCall(true, callDropMessage);
+            }
+          }, 5000);
+        }
+      }
+
+      if (state === "failed" || state === "closed") {
+        if (disconnectTimeoutRef.current) {
+          window.clearTimeout(disconnectTimeoutRef.current);
+          disconnectTimeoutRef.current = null;
+        }
+
         appendCallLog("failed");
         const callDropMessage = turnUrls.length === 0
           ? "Call connection lost. Add TURN server config for cross-network device support."
