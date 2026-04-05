@@ -10,8 +10,17 @@ services:
       - key: NODE_ENV
         value: production
       - key: ALLOW_PERSISTENT_ROOM_STORAGE
-        value: "false"
+        value: "true"
       - key: ALLOW_SERVER_CALL_LOGS
         value: "false"
       - key: APP_ORIGIN
         value: https://axyntrel-1-main.onrender.com
+      - fromDatabaseUrl:
+          type: postgres
+          property: connectionString
+        key: DATABASE_URL
+  - type: pserv
+    name: axyntrel-db
+    env: postgres
+    plan: free
+    # database is shared across services
