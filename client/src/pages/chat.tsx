@@ -86,8 +86,11 @@ export default function Chat() {
   useEffect(() => {
     if (callState.isInCall && (window as any).MeteredFrame && !document.getElementById("metered-frame")?.hasChildNodes()) {
       const frame = new (window as any).MeteredFrame();
+      const meteredRoomUrl =
+        import.meta.env.VITE_METERED_ROOM_URL ||
+        "https://axyntrel.metered.live/axyntrel";
       frame.init({
-        roomURL: "strangertalk.metered.live/strangertalk",
+        roomURL: meteredRoomUrl,
       }, document.getElementById("metered-frame"));
     }
   }, [callState.isInCall]);
