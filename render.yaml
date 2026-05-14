@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: axyntrel
+    name: stranger-talk
     env: node
     plan: free
     buildCommand: npm run db:push && npm run build
@@ -20,7 +20,7 @@ services:
           property: connectionString
         key: DATABASE_URL
   - type: pserv
-    name: axyntrel-db
+    name: stranger-talk-db
     env: postgres
     plan: free
     # database is shared across services

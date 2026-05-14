@@ -53,6 +53,7 @@ export default function Chat() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
+  const remoteAudioRef = useRef<HTMLAudioElement>(null);
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const [copied, setCopied] = useState(false);
   const [showCallLogs, setShowCallLogs] = useState(false);
@@ -86,7 +87,7 @@ export default function Chat() {
     if (callState.isInCall && (window as any).MeteredFrame && !document.getElementById("metered-frame")?.hasChildNodes()) {
       const frame = new (window as any).MeteredFrame();
       frame.init({
-        roomURL: "axyntrel.metered.live/axyntrel",
+        roomURL: "strangertalk.metered.live/strangertalk",
       }, document.getElementById("metered-frame"));
     }
   }, [callState.isInCall]);

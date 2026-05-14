@@ -34,8 +34,8 @@ type InviteItem = {
   createdAt: number;
 };
 
-const SAVED_ROOMS_KEY = "axyntrel.savedRooms";
-const PROFILE_KEY = "axyntrel.profile";
+const SAVED_ROOMS_KEY = "strangertalk.savedRooms";
+const PROFILE_KEY = "strangertalk.profile";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -435,7 +435,7 @@ export default function Home() {
                 <Shield className="w-6 h-6 text-primary animate-pulse-glow" />
               </div>
               <div className="text-left">
-                <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Axyntrel Secure</div>
+                <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Stranger Talk Secure</div>
                 <div className="font-mono text-sm font-semibold text-foreground">Private Communication Layer</div>
               </div>
             </div>
@@ -443,7 +443,7 @@ export default function Home() {
             <div className="space-y-3 relative">
               <div className="hero-title-spotlight" aria-hidden="true" />
               <h1 className="text-[2.15rem] sm:text-[3rem] md:text-[3.5rem] font-extrabold font-mono tracking-[-0.03em] leading-[0.98] text-transparent bg-clip-text bg-gradient-to-b from-foreground via-foreground to-foreground/75 drop-shadow-[0_8px_24px_rgba(0,0,0,0.22)]">
-                Axyntrel
+                Stranger Talk
               </h1>
 
               <div className="mx-auto w-36 h-[3px] rounded-full hero-title-underline" aria-hidden="true" />

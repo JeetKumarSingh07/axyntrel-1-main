@@ -25,11 +25,11 @@ Environment flags:
 ## Installation Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/himanshuraj650/axyntrel.git
+   git clone https://github.com/himanshuraj650/stranger-talk.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd axyntrel
+   cd stranger-talk
    ```
 3. Install required dependencies:
    ```bash
@@ -81,4 +81,4 @@ We welcome contributions! To get involved:
    ```
 5. Open a pull request.
 
-Thank you for helping to improve Axyntrel!
+Thank you for helping to improve Stranger Talk!

@@ -24,7 +24,7 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="axyntrel-theme">
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="stranger-talk-theme">
         <TooltipProvider>
           <ThemeToggle />
           <Router />
